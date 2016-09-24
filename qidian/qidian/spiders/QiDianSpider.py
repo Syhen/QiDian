@@ -39,13 +39,14 @@ class QiDianSpider(scrapy.Spider):
 			for li in lis:
 				item = QidianItem()
 				item['title'] = li.xpath('.//h4/a/text()').extract()[0]
-				print u'小说标题：', item['title']
+				# print u'小说标题：', item['title']
 				item['title_url'] = li.xpath('.//h4/a/@href').extract()[0]
-				print u'小说链接：', item['title_url']
+				# print u'小说链接：', item['title_url']
 				item['author'] = li.xpath('.//p/a/text()').extract()[0]
-				print u'小说作者', item['author']
+				# print u'小说作者', item['author']
 				item['bid'] = item['title_url'].split('/')[-1].split('.')[0]
-				print u'小说id：', item['bid']
-				item['relate_id'] = 'qidian%s'%item['bid']
+				# print u'小说id：', item['bid']
+				item['relate_id'] = 'qidian_%s'%item['bid']
 				item['refresh_time'] = time.strftime('%Y-%m-%d %H:%M:%S')
+				item['source'] = 1
 				yield item
