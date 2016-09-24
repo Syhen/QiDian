@@ -20,12 +20,12 @@ class QidianPipeline(object):
             rate = cnt_today * 1.0 / cnt_all
             mailer = MailSender(
                 smtphost = 'smtp.qq.com', 
-                mailfrom = 'jackay-hy@qq.com', 
-                smtpuser = 'jackay-hy@qq.com', 
-                smtppass = 'hy3665124'
+                mailfrom = '', 
+                smtpuser = '', 
+                smtppass = ''
             )
             mailer.send(
-                to = ['jackay-hy@qq.com'], 
+                to = [''], 
                 subject = '黑马-起点爬虫抓取结果', 
                 body = '共有<strong>{0}</strong>条索引，其中：\n\n\r\r\r\r今日更新<strong>{1}</strong>条，占总索引比例为：<strong>{2}%</strong>。'.format(cnt_all, cnt_today, '%.2f'%(rate * 100)), 
                 mimetype = 'text/html'
@@ -56,3 +56,5 @@ class QidianPipeline(object):
         	data_history['c_id'] = item['relate_id']+'-'+item['show_time'].split(' ')[0]
         	db.bookInfo.update({'_id': data_history['relate_id']}, {'$set': item}, True)
         	db.bookInfoHistory.update({'_id': data_history['c_id']}, {'$set': data_history}, True)
+
+        
