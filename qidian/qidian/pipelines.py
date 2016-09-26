@@ -34,7 +34,7 @@ class QidianPipeline(object):
     def process_item(self, item, spider):
     	if spider.__class__.name == 'qidianindex':
         	db.bookIndex.update({'_id': item['relate_id']}, {'$set': item}, True)
-        if spider.__class__.name == 'qidianinfo':
+        elif spider.__class__.name == 'qidianinfo':
         	data_history = {}
         	data_history['title_url'] = item['title_url']
         	data_history['bid'] = item['bid']
@@ -57,4 +57,5 @@ class QidianPipeline(object):
         	db.bookInfo.update({'_id': data_history['relate_id']}, {'$set': item}, True)
         	db.bookInfoHistory.update({'_id': data_history['c_id']}, {'$set': data_history}, True)
 
-        
+        elif spider.__class__.name == 'jjwxindex':
+            db.bookIndex.update({'_id': item['relate_id']}, {'$setOnInsert': item}, True)#不存在则插入，存在则忽略

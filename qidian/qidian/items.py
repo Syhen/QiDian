@@ -44,3 +44,29 @@ class QiDianInfo(scrapy.Item):
 	scrapy_time = scrapy.Field()#抓取时间
 	show_time = scrapy.Field()#展示日期
 	source = scrapy.Field()
+
+class JJWXIndex(scrapy.Item):
+	title = scrapy.Field()
+	author = scrapy.Field()
+	author_url = scrapy.Field()
+	title_url = scrapy.Field()
+	bid = scrapy.Field()
+	relate_id = scrapy.Field()
+	refresh_time = scrapy.Field()
+	source = scrapy.Field()
+	first_time = scrapy.Field()
+
+class JJWXInfo(scrapy.Item):
+	title = scrapy.Field()
+	author = scrapy.Field()
+	author_url = scrapy.Field()
+	title_url = scrapy.Field()
+	bid = scrapy.Field()
+	relate_id = scrapy.Field()
+	source = scrapy.Field()
+	first_time = scrapy.Field()
+	introduce = scrapy.Field()
+	c_type = scrapy.Field()
+	c_style = scrapy.Field()
+	update_statu = scrapy.Field()
+	all_count = scrapy.Field()
