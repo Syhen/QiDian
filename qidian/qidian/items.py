@@ -70,3 +70,8 @@ class JJWXInfo(scrapy.Item):
 	c_style = scrapy.Field()
 	update_statu = scrapy.Field()
 	all_count = scrapy.Field()
+	download_num = scrapy.Field()
+	score = scrapy.Field()
+	comment_num = scrapy.Field()
+	collect_num = scrapy.Field()
+	update_time = scrapy.Field()
