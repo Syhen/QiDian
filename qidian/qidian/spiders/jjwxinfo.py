@@ -50,6 +50,7 @@ class JJWXInfoSpider(scrapy.Spider):
 			item['introduce'] = [t for t in basic_infos.xpath('.//*[@id="novelintro"]/font/text()').extract()]
 			if item['introduce'] == []:
 				item['introduce'] = [t for t in basic_infos.xpath('.//*[@id="novelintro"]/text()').extract()]
+			item['img_url'] = basic_infos.xpath('.//img[@itemprop="image"]/@src').extract()[0]
 			# print item['introduce']
 			basics = basic_infos.xpath('.//ul[@class="rightul"]/li')
 			item['c_type'] = basics[0].xpath('./span[2]/text()').extract()[0].strip()
@@ -72,16 +73,68 @@ class JJWXInfoSpider(scrapy.Spider):
 			data = update_infos.xpath('.//tr[last()]//div')
 			data_str = u''.join(data.xpath('./text()').extract())
 			# print data_str
-			item['download_num'] = int(data_str.split(u'非V章节总点击数：')[0].split(u'总下载数：')[1].strip())
-			#http://www.jjwxc.net/onebook.php?novelid=2938416非章节类型
-			print item['download_num']
-			item['score'] = int(data_str.split(u'文章积分：')[1].strip().replace(',', ''))
-			print item['score']
-			item['comment_num'] = int(data.xpath('./span[@itemprop="reviewCount"]/text()').extract()[0])
-			print item['comment_num']
-			item['collect_num'] = int(data.xpath('./span[@itemprop="collectedCount"]/text()').extract()[0])
-			print item['collect_num']
-			item['update_time'] = update_infos.xpath('.//tr[last() - 1]/td[last()]/span[1]/text()').extract()[0].strip()
-			print item['update_time']
+			if u'总下载数：' in data_str:
+				item['download_num'] = int(data_str.split(u'非V章节总点击数：')[0].split(u'总下载数：')[1].strip())
+				#http://www.jjwxc.net/onebook.php?novelid=2938416非章节类型
+				print item['download_num']
+				item['score'] = int(data_str.split(u'文章积分：')[1].strip().replace(',', ''))
+				print item['score']
+				item['comment_num'] = int(data.xpath('./span[@itemprop="reviewCount"]/text()').extract()[0])
+				print item['comment_num']
+				item['collect_num'] = int(data.xpath('./span[@itemprop="collectedCount"]/text()').extract()[0])
+				print item['collect_num']
+				item['update_time'] = update_infos.xpath('.//tr[last() - 1]/td[last()]/span[1]/text()').extract()[0].strip()
+				print item['update_time']
+				item['new_charpter'] = update_infos.xpath('.//tr[last() - 1]/td[2]/a/text()').extract()[0].strip()
+				print item['new_charpter']
+				item['new_charpter_url'] = update_infos.xpath('.//tr[last() - 1]/td[2]/a/@href').extract()[0].strip()
+				print item['new_charpter_url']
+			else:
+				data = self.parse_none_charpter(basic_infos, item)
+				item['download_num'] = data['download_num']
+				item['comment_num'] = data['comment_num']
+				item['click_num'] = data['click_num']
+				item['score'] = data['score']
+				item['update_time'] = data['update_time']
+				item['new_charpter'] = data['new_charpter']
+				item['new_charpter_url'] = data['new_charpter_url']
 		else:
 			print 'NO UPDATE INFO: %s'%response.url
+
+	def parse_none_charpter(self, basic_infos, item):
+		data = {}
+		info_str = basic_infos.xpath('.//tr[1]/td[1]/div[4]/text()').extract()[0].strip()
+		click_num = int(info_str.split(u'总书评数：')[0].split(u'总点击数：')[1].strip())
+		print click_num
+		comment_num = int(info_str.split(u'当前被收藏数：')[0].split(u'总书评数：')[1].strip())
+		print comment_num
+		collect_num = int(info_str.split(u'文章积分：')[0].split(u'当前被收藏数：')[1].strip())
+		print collect_num
+		score = int(info_str.split(u'文章积分：')[1].strip())
+		print score
+		download_num = 0
+		update_time = item['first_time']
+		new_charpter = u'此作品非章节类型'
+		new_charpter_url = item['title_url']
+		data['click_num'] = click_num
+		data['comment_num'] = comment_num
+		data['collect_num'] = collect_num
+		data['score'] = score
+		data['download_num'] = download_num
+		data['update_time'] = update_time
+		data['new_charpter'] = new_charpter
+		data['new_charpter_url'] = new_charpter_url
+		return data
+
+	def parse_clicks(self, response):
+		pass
+
+
+
+
+
+
+
+
+
+

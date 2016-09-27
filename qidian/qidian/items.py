@@ -66,12 +66,24 @@ class JJWXInfo(scrapy.Item):
 	source = scrapy.Field()
 	first_time = scrapy.Field()
 	introduce = scrapy.Field()
+	img_url = scrapy.Field()
 	c_type = scrapy.Field()
 	c_style = scrapy.Field()
 	update_statu = scrapy.Field()
 	all_count = scrapy.Field()
 	download_num = scrapy.Field()
 	score = scrapy.Field()
+	click_num = scrapy.Field()
 	comment_num = scrapy.Field()
 	collect_num = scrapy.Field()
 	update_time = scrapy.Field()
+	new_charpter = scrapy.Field()
+	new_charpter_url = scrapy.Field()
+
+
+
+
+
+
+
+
