@@ -80,6 +80,10 @@ class JJWXInfo(scrapy.Item):
 	new_charpter = scrapy.Field()
 	new_charpter_url = scrapy.Field()
 
+	today = scrapy.Field()
+	scrapy_time = scrapy.Field()
+
+	pass_statu = scrapy.Field()
 
 
 

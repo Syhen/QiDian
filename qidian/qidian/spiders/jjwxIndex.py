@@ -44,7 +44,7 @@ class JJWXIndexSpider(scrapy.Spider):
 				# print item['author_url']
 			except IndexError:
 				item['author'] = u'此作品无作者'
-				item['author'] = u'此作品无作者链接'
+				item['author_url'] = u'此作品无作者链接'
 			
 			item['title'] = data.xpath('./td[2]/a/text()').extract()[0]
 			# print item['title']
