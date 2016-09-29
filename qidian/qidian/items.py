@@ -45,6 +45,16 @@ class QiDianInfo(scrapy.Item):
 	show_time = scrapy.Field()#展示日期
 	source = scrapy.Field()
 
+class QidianInfo(scrapy.Item):
+	source = scrapy.Field()
+	bid = scrapy.Field()
+	today = scrapy.Field()
+
+	follow_people = scrapy.Field()
+	read_rate = scrapy.Field()
+	zhuishu_count = scrapy.Field()
+	zhuishu_id = scrapy.Field()
+
 class JJWXIndex(scrapy.Item):
 	title = scrapy.Field()
 	author = scrapy.Field()
@@ -85,7 +95,18 @@ class JJWXInfo(scrapy.Item):
 
 	pass_statu = scrapy.Field()
 
+	follow_people = scrapy.Field()
+	read_rate = scrapy.Field()
+	zhuishu_count = scrapy.Field()
+	zhuishu_id = scrapy.Field()
 
+
+class JJWXALLIndex(scrapy.Item):
+	title = scrapy.Field()
+	url = scrapy.Field()
+	author = scrapy.Field()
+	source = scrapy.Field()
+	recommend_num = scrapy.Field()
 
 
 

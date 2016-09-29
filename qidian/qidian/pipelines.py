@@ -14,8 +14,7 @@ sys.setdefaultencoding('utf-8')
 
 class QidianPipeline(object):
     def open_spider(self, spider):
-        if spider.__class__.name == 'jjwxinfo':
-            self.t2 = datetime.datetime.now()
+        self.t2 = datetime.datetime.now()
 
     def close_spider(self, spider):
         if spider.__class__.name == 'qidianindex':
@@ -35,8 +34,7 @@ class QidianPipeline(object):
                 body = '共有<strong>{0}</strong>条索引，其中：\n\n\r\r\r\r今日更新<strong>{1}</strong>条，占总索引比例为：<strong>{2}%</strong>。'.format(cnt_all, cnt_today, '%.2f'%(rate * 100)), 
                 mimetype = 'text/html'
             )
-        elif spider.__class__.name == 'jjwxinfo':
-            print (datetime.datetime.now() - self.t2)
+        print (datetime.datetime.now() - self.t2)
             
 
     def process_item(self, item, spider):
@@ -68,6 +66,25 @@ class QidianPipeline(object):
         elif spider.__class__.name == 'jjwxindex':
             db.bookIndex.update({'_id': item['relate_id']}, {'$setOnInsert': item}, True)#不存在则插入，存在则忽略
 
+        elif spider.__class__.name == 'jjwxallindex':
+            ids = item['url'].split('=')[-1] + '_7'
+            db.bh_all_data.update({'_id': ids}, {'$set':item}, True)
+
+        elif spider.__class__.name == 'flallindex':
+            ids = item['url'].split('/')[-1].split('.')[0]+'_10'
+            db.bh_all_data.update({'_id': ids}, {'$set': item}, True)
+
+        elif spider.__class__.name == 'csallindex':
+            ids = item['url'].split('/')[-1].split('.')[0]+'_8'
+            db.bh_all_data.update({'_id': ids}, {'$set': item}, True)
+
+        elif spider.__class__.name =='sqkallindex':
+            ids = item['url'].split('/')[-1].split('.')[0]+'_9'
+            db.bh_all_data.update({'_id': ids}, {'$set': item}, True)
+
+        elif spider.__class__.name == 'sqkallclick':
+            ids = item['url'].split('/')[-1].split('.')[0]+'_9'
+            db.bh_all_data.update({'_id': ids}, {'$set': item}, True)
         elif spider.__class__.name == 'jjwxinfo':
             # print item['title_url']
             if item['pass_statu'] == 'ok':
@@ -94,7 +111,9 @@ class QidianPipeline(object):
                 db.bookInfo.update({'_id': item['relate_id']}, {'$set': item}, True)
                 db.bookInfoHistory.update({'_id': dict_update['flag_id']}, {'$set': dict_update}, True)
 
-
+        elif spider.__class__.name == 'jjwxzs':
+            db.bookInfo.update({'_id': 'jjwx_'+item['bid']}, {'$set': item}, True)
+            db.bookInfoHistory.update({'_id': 'jjwx_'+item['bid']+'-'+item['today'].split(' ')[0]}, {'$set': item}, True)
 
 
 

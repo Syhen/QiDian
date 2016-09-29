@@ -42,6 +42,9 @@ class JJWXInfoSpider(scrapy.Spider):
 		meta_info = response.meta
 		item = JJWXInfo()
 		item['pass_statu'] = 'ok'
+		item['follow_people'] = 0
+		item['read_rate'] = 0.0
+		item['zhuishu_count'] = 0
 		item['today'] = meta_info['today']
 		item['source'] = 7
 		item['first_time'] = meta_info['first_time']

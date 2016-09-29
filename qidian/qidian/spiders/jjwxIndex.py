@@ -11,7 +11,6 @@ class JJWXIndexSpider(scrapy.Spider):
 	name = 'jjwxindex'
 
 	start_urls = ['http://www.jjwxc.net/bookbase.php?fw0=0&fbsj=3&ycx0=0&xx0=0&sd0=0&lx0=0&fg0=0&sortType=0&isfinish=0&collectiontypes=ors&searchkeywords=&page=1&sortType=3']
-
 	def parse(self, response):
 		sel = Selector(text = response.body.decode('gbk', 'ignore'))
 		try:
