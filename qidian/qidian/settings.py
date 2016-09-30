@@ -3,7 +3,6 @@
 import pymongo
 
 client = pymongo.MongoClient('localhost', 27017)
-# client = pymongo.MongoClient('123.57.43.67', 27017)
 db = client.develop
 # Scrapy settings for qidian project
 #
@@ -27,7 +26,7 @@ LOG_LEVEL = 'ERROR'
 # ROBOTSTXT_OBEY = True
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
-CONCURRENT_REQUESTS = 1
+CONCURRENT_REQUESTS = 64
 
 
 # Configure a delay for requests for the same website (default: 0)

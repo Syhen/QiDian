@@ -64,7 +64,8 @@ class QidianPipeline(object):
         	db.bookInfoHistory.update({'_id': data_history['c_id']}, {'$set': data_history}, True)
 
         elif spider.__class__.name == 'jjwxindex':
-            db.bookIndex.update({'_id': item['relate_id']}, {'$setOnInsert': item}, True)#不存在则插入，存在则忽略
+            # db.bookIndex.update({'_id': item['bid']}, {'$setOnInsert': item}, True)
+            db.jjwxIndex.update({'_id': item['bid']}, {'$setOnInsert': item}, True)#不存在则插入，存在则忽略
 
         elif spider.__class__.name == 'jjwxallindex':
             ids = item['url'].split('=')[-1] + '_7'
@@ -87,34 +88,47 @@ class QidianPipeline(object):
             db.bh_all_data.update({'_id': ids}, {'$set': item}, True)
         elif spider.__class__.name == 'jjwxinfo':
             # print item['title_url']
-            if item['pass_statu'] == 'ok':
+            if item['return_status'] == 'ok':
                 # print item['pass_statu']
                 dict_update = {}
-                dict_update['all_clicks'] = item['click_num']
+                dict_update['all_clicks'] = item['all_clicks']
                 dict_update['all_count'] = item['all_count']
                 dict_update['author_url'] = item['author_url']
-                dict_update['bid'] = item['bid']
-                dict_update['relate_id'] = item['relate_id']
+                dict_update['relate_id'] = item['bid']
+                # dict_update['relate_id'] = item['relate_id']
+                # dict_update['c_id'] = item['c_id']
                 dict_update['source'] = item['source']
                 dict_update['first_time'] = item['first_time']
-                dict_update['update_statu'] = item['update_statu']
-                dict_update['download_num'] = item['download_num']
+                dict_update['percent'] = item['percent']
+                dict_update['download_count'] = item['download_count']
                 dict_update['score'] = item['score']
-                dict_update['comment_num'] = item['comment_num']
-                dict_update['collect_num'] = item['collect_num']
+                dict_update['all_comments'] = item['all_comments']
+                dict_update['all_collect'] = item['all_collect']
                 dict_update['update_time'] = item['update_time']
-                dict_update['new_charpter'] = item['new_charpter']
-                dict_update['new_charpter_url'] = item['new_charpter_url']
+                dict_update['new_capture'] = item['new_capture']
+                dict_update['new_capture_url'] = item['new_capture_url']
                 dict_update['today'] = item['today']
-                dict_update['scrapy_time'] = item['scrapy_time']
+                dict_update['history_scrapy_time'] = item['crawl_time']
+                dict_update['isvip'] = item['isvip']
+                dict_update['zhuishu_count'] = item['zhuishu_count']
+                dict_update['read_rate'] = item['read_rate']
+                dict_update['follow_people'] = item['follow_people']
                 dict_update['flag_id'] = dict_update['relate_id'] + dict_update['today'].split(' ')[0].replace('-', '/')
-                db.bookInfo.update({'_id': item['relate_id']}, {'$set': item}, True)
-                db.bookInfoHistory.update({'_id': dict_update['flag_id']}, {'$set': dict_update}, True)
+
+                db.qidianinfo.update({'_id': item['bid']}, {'$set': item}, True)
+                db.qidianshowhistory.update({'_id': dict_update['flag_id']}, {'$set': dict_update}, True)
+                # db.bookInfo.update({'_id': item['relate_id']}, {'$set': item}, True)
+                # db.bookInfoHistory.update({'_id': dict_update['flag_id']}, {'$set': dict_update}, True)
 
         elif spider.__class__.name == 'jjwxzs':
-            db.bookInfo.update({'_id': 'jjwx_'+item['bid']}, {'$set': item}, True)
-            db.bookInfoHistory.update({'_id': 'jjwx_'+item['bid']+'-'+item['today'].split(' ')[0]}, {'$set': item}, True)
+            db.qidianinfo.update({'_id': item['bid']}, {'$set': item}, True)
+            db.qidianshowhistory.update({'_id': item['bid']+'-'+item['crawl_time'].split(' ')[0]}, {'$set': item}, True)
+            # db.bookInfo.update({'_id': item['bid']}, {'$set': item}, True)
+            # db.bookInfoHistory.update({'_id': item['bid']+'-'+item['crawl_time'].split(' ')[0]}, {'$set': item}, True)
 
+        elif spider.__class__.name == 'xxft':
+            with open('/Users/mac/Desktop/first_time.txt', 'a') as f:
+                f.write(item['first_time']+'\n')
 
 
 
